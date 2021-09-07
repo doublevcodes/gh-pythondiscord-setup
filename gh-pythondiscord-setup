@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+check_auth()
+{
+    logged_in=gh auth status &> /dev/null;
+    return $logged_in;
+}
+
+clone_repo()
+{
+    # Check if user has logged in
+    authorised=check_auth();
+    while [ "$authorised" -ne 0 ]
+    do
+        gh auth login;
+    done
+
+    # Clone the repository if it exists otherwise fork it
+    repo_exists=$(gh repo list --json name,parent --fork | jq '.[]' | jq '.name == "bot" and .parent.owner.login == "python-discord"');
+}
+
