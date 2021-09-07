@@ -10,13 +10,20 @@ check_auth()
 clone_repo()
 {
     # Check if user has logged in
-    authorised=check_auth();
-    while [ "$authorised" -ne 0 ]
+    until check_auth();
     do
         gh auth login;
     done
 
     # Clone the repository if it exists otherwise fork it
-    repo_exists=$(gh repo list --json name,parent --fork | jq '.[]' | jq '.name == "bot" and .parent.owner.login == "python-discord"');
+    repo_matches=$(gh repo list --json name,parent --fork | jq '.[]' | jq '.name == $1 and .parent.owner.login == "python-discord"');
+    readarray -t exists_list<<<"$repo_matches";
+
+    # Check if the search results returned any matches
+    exists="false";
+    for match in "${exists_list[@]}
+    do
+        echo "TODO";   # TODO: continue
+    done
 }
 
