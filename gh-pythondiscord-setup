@@ -23,7 +23,18 @@ clone_repo()
     exists="false";
     for match in "${exists_list[@]}
     do
-        echo "TODO";   # TODO: continue
+        if [ $match = "true" ]; then
+        do
+            exists="true";
+        done 
     done
+
+    if [ $exists = "false" ]; then
+    do
+        gh repo fork --clone false --remote;
+    done
+
+    gh repo clone bot $HOME/pydis/bot/;
+    cd $HOME/pydis/bot;
 }
 
